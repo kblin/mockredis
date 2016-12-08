@@ -8,9 +8,9 @@ __version__ = '2.9.3.1'
 # Jenkins will replace __build__ with a unique value.
 __build__ = ''
 
-setup(name='mockredispy',
+setup(name='mockredispy-kblin',
       version=__version__ + __build__,
-      description='Mock for redis-py',
+      description='Mock for redis-py, fork until upstream releases new version',
       url='http://www.github.com/locationlabs/mockredis',
       license='Apache2',
       packages=find_packages(exclude=['*.tests']),
