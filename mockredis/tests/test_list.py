@@ -145,54 +145,54 @@ class TestRedisList(object):
 
     def test_lrem(self):
         self.redis.rpush(LIST1, VAL1, VAL2, VAL1, VAL3, VAL4, VAL2)
-        eq_(2, self.redis.lrem(LIST1, VAL1, 0))
+        eq_(2, self.redis.lrem(LIST1, 0, VAL1))
         eq_([bVAL2, bVAL3, bVAL4, bVAL2],
             self.redis.lrange(LIST1, 0, -1))
 
         del self.redis[LIST1]
         self.redis.rpush(LIST1, VAL1, VAL2, VAL1, VAL3, VAL4, VAL2)
-        eq_(1, self.redis.lrem(LIST1, VAL2, 1))
+        eq_(1, self.redis.lrem(LIST1, 1, VAL2))
         eq_([bVAL1, bVAL1, bVAL3, bVAL4, bVAL2],
             self.redis.lrange(LIST1, 0, -1))
 
         del self.redis[LIST1]
         self.redis.rpush(LIST1, VAL1, VAL2, VAL1, VAL3, VAL4, VAL2)
-        eq_(2, self.redis.lrem(LIST1, VAL1, 100))
+        eq_(2, self.redis.lrem(LIST1, 100, VAL1))
         eq_([bVAL2, bVAL3, bVAL4, bVAL2],
             self.redis.lrange(LIST1, 0, -1))
 
         del self.redis[LIST1]
         self.redis.rpush(LIST1, VAL1, VAL2, VAL1, VAL3, VAL4, VAL2)
-        eq_(1, self.redis.lrem(LIST1, VAL3, -1))
+        eq_(1, self.redis.lrem(LIST1, -1, VAL3))
         eq_([bVAL1, bVAL2, bVAL1, bVAL4, bVAL2],
             self.redis.lrange(LIST1, 0, -1))
 
         del self.redis[LIST1]
         self.redis.rpush(LIST1, VAL1, VAL2, VAL1, VAL3, VAL4, VAL2)
-        eq_(1, self.redis.lrem(LIST1, VAL2, -1))
+        eq_(1, self.redis.lrem(LIST1, -1, VAL2))
         eq_([bVAL1, bVAL2, bVAL1, bVAL3, bVAL4],
             self.redis.lrange(LIST1, 0, -1))
 
         del self.redis[LIST1]
         self.redis.rpush(LIST1, VAL1, VAL2, VAL1, VAL3, VAL4, VAL2)
-        eq_(2, self.redis.lrem(LIST1, VAL2, -2))
+        eq_(2, self.redis.lrem(LIST1, -2, VAL2))
         eq_([bVAL1, bVAL1, bVAL3, bVAL4],
             self.redis.lrange(LIST1, 0, -1))
 
         # string conversion
         self.redis.rpush(1, 1, "2", 3)
-        eq_(1, self.redis.lrem(1, "1"))
-        eq_(1, self.redis.lrem("1", 2))
+        eq_(1, self.redis.lrem(1, 0, "1"))
+        eq_(1, self.redis.lrem("1", 0, 2))
         eq_([b"3"], self.redis.lrange(1, 0, -1))
         del self.redis["1"]
 
         del self.redis[LIST1]
         self.redis.rpush(LIST1, VAL1)
-        eq_(1, self.redis.lrem(LIST1, VAL1))
+        eq_(1, self.redis.lrem(LIST1, 0, VAL1))
         eq_([], self.redis.lrange(LIST1, 0, -1))
         eq_([], self.redis.keys("*"))
 
-        eq_(0, self.redis.lrem("NON_EXISTENT_LIST", VAL1, 0))
+        eq_(0, self.redis.lrem("NON_EXISTENT_LIST", 0, VAL1))
 
     def test_brpoplpush(self):
         self.redis.rpush(LIST1, VAL1, VAL2)
